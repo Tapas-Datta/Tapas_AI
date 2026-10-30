@@ -1,32 +1,52 @@
-# TD_AI
+# ✳ TD_AI — AI-Powered Chat Assistant
 
-A dark, terminal-inspired AI chat app with conversation history stored in your browser, per-chat delete controls, automatic response language matching, and a small Node server that keeps your Groq API key out of client-side code.
+TD_AI is a multilingual AI chat application powered by Groq. It is designed to make AI interaction simple, accessible, and efficient through a clean and responsive interface.
 
-## Requirements
+## Features
+- AI-powered conversations
+- Multilingual responses
+- Browser-based chat history
+- Responsive user interface
+- Secure server-side API integration
 
-- Node.js 18 or later
-- A Groq API key
+## Technologies
+HTML, CSS, JavaScript, Node.js, and Groq API.
 
-## Run locally
+## Getting Started
 
-1. Open Terminal and move into this folder:
-   ```sh
-   cd ~/Downloads/TD_Ai
-   ```
-2. Set your API key in that Terminal window:
-   ```sh
-   export GROQ_API_KEY="your-groq-api-key"
-   ```
-3. Start the app:
-   ```sh
-   npm start
-   ```
-4. Visit [http://127.0.0.1:3000](http://127.0.0.1:3000).
+**1. Clone the repository**
+```bash
+git clone https://github.com/Tapas-Datta/Tapas_AI.git
+cd Tapas_AI
+```
 
-To use a different model, set `GROQ_MODEL` before starting the server. You can also put `GROQ_API_KEY=...` in a local `.env` file; `.env` is excluded from version control and is never served to the browser.
+**2. Install dependencies**
+```bash
+npm install
+```
 
-The API key is read only by `server.mjs`. Chat history is stored locally in the browser, can be deleted one session at a time or cleared from the sidebar, and responses follow the language of each message. The app calls Groq's OpenAI-compatible chat completions API.
+**3. Configure environment variables**
 
-## Deploy to Render
+Create a `.env` file:
+```env
+GROQ_API_KEY=your_groq_api_key
+GROQ_MODEL=openai/gpt-oss-20b
+PORT=3000
+```
 
-The included `render.yaml` defines a Node web service named `tapas-ai-model` on Render's free plan. Connect this project from a Git repository, create the Blueprint, and provide `GROQ_API_KEY` when Render prompts for the secret. The key is not included in the repository. Render assigns a public `onrender.com` URL after the first deploy; a custom domain can be attached separately.
+**4. Run the application**
+```bash
+npm start
+```
+
+Open `http://localhost:3000` in your browser.
+
+## Deployment
+
+TD_AI can be deployed using Vercel or Render. Configure your Groq API key in the deployment environment variables.
+
+## Developer
+
+**Tapas Datta**
+
+[GitHub Repository](https://github.com/Tapas-Datta/Tapas_AI)
