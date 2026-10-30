@@ -2,6 +2,7 @@
 /* =========================================
    TD_AI — DARK GREEN INTELLIGENCE TERMINAL
    Complete Responsive Stylesheet
+   Comfortable Typography Edition
 ========================================= */
 
 :root {
@@ -37,7 +38,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font);
-  font-size: 15px;
+  font-size: 16px;
   overflow: hidden;
 }
 
@@ -120,7 +121,7 @@ textarea:focus-visible {
 }
 
 .brand-name {
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 700;
   letter-spacing: -1px;
 }
@@ -132,7 +133,7 @@ textarea:focus-visible {
 .brand-version {
   margin-left: auto;
   color: var(--dim);
-  font: 10px var(--mono);
+  font: 11px var(--mono);
 }
 
 .new-chat {
@@ -146,7 +147,7 @@ textarea:focus-visible {
   border-radius: 7px;
   background: #111813;
   color: #dce8df;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   transition: 0.2s;
 }
@@ -158,7 +159,7 @@ textarea:focus-visible {
 
 .plus {
   color: var(--green);
-  font-size: 20px;
+  font-size: 21px;
 }
 
 .new-chat kbd {
@@ -168,13 +169,13 @@ textarea:focus-visible {
   background: #0a0f0c;
   border: 1px solid var(--border);
   border-radius: 4px;
-  font: 10px var(--mono);
+  font: 11px var(--mono);
 }
 
 .side-label {
   margin: 29px 7px 12px;
-  color: #718076;
-  font: 10px var(--mono);
+  color: #819086;
+  font: 11px var(--mono);
   letter-spacing: 1.4px;
 }
 
@@ -186,7 +187,7 @@ textarea:focus-visible {
   padding: 0 10px;
   border-radius: 6px;
   color: #d1ddd4;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .nav-item.active {
@@ -195,7 +196,7 @@ textarea:focus-visible {
 }
 
 .nav-icon {
-  font-size: 17px;
+  font-size: 18px;
 }
 
 .live-dot {
@@ -223,7 +224,7 @@ textarea:focus-visible {
   border: 0;
   background: transparent;
   color: var(--dim);
-  font-size: 17px;
+  font-size: 18px;
 }
 
 .history-label button:hover {
@@ -251,11 +252,11 @@ textarea:focus-visible {
   border: 1px solid transparent;
   border-radius: 5px;
   background: transparent;
-  color: #99a69c;
+  color: #a7b3aa;
   text-align: left;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 12px;
+  font-size: 14px;
   transition: 0.2s;
 }
 
@@ -274,7 +275,7 @@ textarea:focus-visible {
   background: transparent;
   color: var(--dim);
   opacity: 0;
-  font-size: 17px;
+  font-size: 18px;
 }
 
 .history-row:hover .history-delete {
@@ -318,13 +319,13 @@ textarea:focus-visible {
 }
 
 .model-card small {
-  color: var(--dim);
-  font: 9px var(--mono);
+  color: #819086;
+  font: 10px var(--mono);
   letter-spacing: 1px;
 }
 
 .model-card strong {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -349,7 +350,7 @@ textarea:focus-visible {
   border-radius: 50%;
   background: #18281d;
   color: var(--green);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
 }
 
@@ -366,12 +367,12 @@ textarea:focus-visible {
   color: #dce7de;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .profile-copy small {
   color: var(--dim);
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .more {
@@ -379,7 +380,7 @@ textarea:focus-visible {
   border: 0;
   background: transparent;
   color: var(--muted);
-  font-size: 21px;
+  font-size: 22px;
 }
 
 /* MAIN PANEL */
@@ -412,7 +413,7 @@ textarea:focus-visible {
   gap: 10px;
   overflow: hidden;
   color: #b8c4bb;
-  font-size: 12px;
+  font-size: 14px;
   white-space: nowrap;
 }
 
@@ -437,8 +438,8 @@ textarea:focus-visible {
   display: flex;
   align-items: center;
   gap: 7px;
-  color: #9aaba0;
-  font: 10px var(--mono);
+  color: #a5b2a8;
+  font: 11px var(--mono);
   letter-spacing: 0.5px;
 }
 
@@ -454,11 +455,11 @@ textarea:focus-visible {
   border-radius: 5px;
   background: #111813;
   color: #a6b3a9;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .share-button {
-  height: 33px;
+  height: 34px;
   padding: 0 12px;
   display: flex;
   align-items: center;
@@ -467,7 +468,7 @@ textarea:focus-visible {
   border-radius: 5px;
   background: #121a15;
   color: #cbd8ce;
-  font-size: 11px;
+  font-size: 13px;
   transition: 0.2s;
 }
 
@@ -478,7 +479,7 @@ textarea:focus-visible {
 
 .share-button span {
   color: var(--green);
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .history-toggle {
@@ -548,8 +549,8 @@ textarea:focus-visible {
   display: flex;
   align-items: center;
   gap: 11px;
-  color: #94a79a;
-  font: 10px var(--mono);
+  color: #a0b0a4;
+  font: 11px var(--mono);
   letter-spacing: 2px;
 }
 
@@ -622,7 +623,7 @@ textarea:focus-visible {
 
 .welcome h1 {
   color: #e8f0e9;
-  font-size: clamp(36px, 4vw, 46px);
+  font-size: clamp(40px, 4.5vw, 50px);
   line-height: 1.13;
   font-weight: 600;
   letter-spacing: -2px;
@@ -683,24 +684,24 @@ textarea:focus-visible {
 
 .founder-option-copy small {
   color: var(--green);
-  font: 9px var(--mono);
+  font: 10px var(--mono);
   letter-spacing: 1px;
 }
 
 .founder-option-copy strong {
   color: #e0ebe2;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .founder-option-copy > span {
-  color: #91a096;
-  font-size: 11px;
+  color: #a1afa5;
+  font-size: 12px;
 }
 
 .founder-option-arrow {
   margin-left: auto;
   color: var(--green);
-  font-size: 17px;
+  font-size: 18px;
 }
 
 /* MESSAGES */
@@ -731,14 +732,14 @@ textarea:focus-visible {
   border-radius: 8px;
   background: #131c16;
   color: var(--green);
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .message.user .message-avatar {
   background: #1b3021;
   border-color: rgba(118, 230, 154, 0.25);
   color: #d7f4df;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
 }
 
@@ -747,7 +748,7 @@ textarea:focus-visible {
   max-width: calc(100% - 45px);
   padding: 7px 0;
   color: #d5ded7;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.8;
   overflow-wrap: anywhere;
 }
@@ -770,7 +771,7 @@ textarea:focus-visible {
   border-radius: 4px;
   background: #131b15;
   color: var(--green);
-  font: 12px var(--mono);
+  font: 14px var(--mono);
 }
 
 .message-content pre {
@@ -782,7 +783,7 @@ textarea:focus-visible {
   border-radius: 7px;
   background: #070b08;
   color: #bce8c6;
-  font: 12px/1.7 var(--mono);
+  font: 14px/1.7 var(--mono);
   white-space: pre-wrap;
 }
 
@@ -816,21 +817,21 @@ textarea:focus-visible {
 
 .owner-badge {
   color: var(--green);
-  font: 9px var(--mono);
+  font: 10px var(--mono);
   letter-spacing: 1px;
 }
 
 .owner-copy h3 {
   margin: 7px 0;
   color: #eff8f0;
-  font-size: 19px;
+  font-size: 21px;
   font-weight: 600;
 }
 
 .owner-copy p {
   margin-bottom: 13px;
   color: #aab9ad;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.65;
 }
 
@@ -849,7 +850,7 @@ textarea:focus-visible {
   border-radius: 5px;
   color: #c7d9cb;
   text-decoration: none;
-  font-size: 10px;
+  font-size: 12px;
   transition: 0.2s;
 }
 
@@ -923,12 +924,12 @@ textarea:focus-visible {
   outline: 0;
   background: transparent;
   color: #e8f0e9;
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.6;
 }
 
 .composer textarea::placeholder {
-  color: #718076;
+  color: #829087;
 }
 
 .composer textarea:focus-visible {
@@ -948,13 +949,13 @@ textarea:focus-visible {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #8d9b91;
-  font-size: 10px;
+  color: #9aa89e;
+  font-size: 12px;
 }
 
 .composer-lock {
   color: var(--green);
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .tool-divider {
@@ -964,9 +965,9 @@ textarea:focus-visible {
 }
 
 .model-inline {
-  color: #a9b9ad;
+  color: #b2c0b6;
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .send-group {
@@ -976,12 +977,12 @@ textarea:focus-visible {
 }
 
 .enter-hint {
-  color: #68766d;
-  font: 9px var(--mono);
+  color: #78867c;
+  font: 10px var(--mono);
 }
 
 .send-button {
-  height: 33px;
+  height: 35px;
   display: flex;
   align-items: center;
   gap: 11px;
@@ -990,7 +991,7 @@ textarea:focus-visible {
   border-radius: 5px;
   background: #77df96;
   color: #0b160e;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   transition: 0.2s;
 }
@@ -1006,14 +1007,14 @@ textarea:focus-visible {
 }
 
 .send-arrow {
-  font-size: 17px;
+  font-size: 18px;
 }
 
 .disclaimer {
   padding-top: 9px;
-  color: #657269;
+  color: #78867c;
   text-align: center;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 /* STATUS BAR */
@@ -1026,8 +1027,8 @@ textarea:focus-visible {
   gap: 10px;
   padding: 0 26px;
   border-top: 1px solid rgba(160, 190, 166, 0.08);
-  color: #66756b;
-  font: 9px var(--mono);
+  color: #78867c;
+  font: 10px var(--mono);
   letter-spacing: 0.5px;
 }
 
@@ -1079,7 +1080,7 @@ textarea:focus-visible {
   justify-content: center;
   gap: 8px;
   color: var(--green);
-  font: 10px var(--mono);
+  font: 11px var(--mono);
   letter-spacing: 1.5px;
 }
 
@@ -1093,27 +1094,27 @@ textarea:focus-visible {
   border-radius: 13px;
   background: #1a3020;
   color: var(--green);
-  font-size: 27px;
+  font-size: 28px;
 }
 
 .name-card h2 {
   color: #eff7f0;
-  font-size: 22px;
+  font-size: 24px;
   letter-spacing: -0.5px;
 }
 
 .name-card p {
   margin: 8px 0 22px;
-  color: #98a79c;
-  font-size: 13px;
+  color: #a6b4aa;
+  font-size: 15px;
 }
 
 .name-card label {
   display: block;
   margin-bottom: 8px;
-  color: #9aaa9f;
+  color: #a5b3a9;
   text-align: left;
-  font: 10px var(--mono);
+  font: 11px var(--mono);
   letter-spacing: 1px;
 }
 
@@ -1126,7 +1127,7 @@ textarea:focus-visible {
   outline: 0;
   background: #0a100c;
   color: var(--text);
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .name-card input:focus {
@@ -1135,7 +1136,7 @@ textarea:focus-visible {
 
 .name-submit {
   width: 100%;
-  height: 42px;
+  height: 43px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1145,7 +1146,7 @@ textarea:focus-visible {
   border-radius: 6px;
   background: var(--green);
   color: #0b160e;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
 }
 
@@ -1154,14 +1155,14 @@ textarea:focus-visible {
 }
 
 .name-submit span {
-  font-size: 17px;
+  font-size: 18px;
 }
 
 .name-card > small {
   display: block;
   margin-top: 15px;
-  color: #68776d;
-  font-size: 10px;
+  color: #78867c;
+  font-size: 11px;
 }
 
 /* TOAST */
@@ -1176,7 +1177,7 @@ textarea:focus-visible {
   border-radius: 7px;
   background: #142019;
   color: #dcebe0;
-  font-size: 12px;
+  font-size: 13px;
   opacity: 0;
   pointer-events: none;
   transform: translateY(10px);
@@ -1221,18 +1222,36 @@ textarea:focus-visible {
 }
 
 @keyframes typing {
-  0%, 60%, 100% { opacity: 0.35; transform: translateY(0); }
-  30% { opacity: 1; transform: translateY(-4px); }
+  0%, 60%, 100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-4px);
+  }
 }
 
 @keyframes messageIn {
-  from { opacity: 0; transform: translateY(7px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes popupIn {
-  from { opacity: 0; transform: translateY(8px) scale(0.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* TABLET */
@@ -1309,13 +1328,13 @@ textarea:focus-visible {
     border-radius: 5px;
     background: #111813;
     color: var(--green);
-    font-size: 16px;
+    font-size: 17px;
   }
 
   .breadcrumb {
     flex: 1;
     gap: 6px;
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .top-actions {
@@ -1336,9 +1355,9 @@ textarea:focus-visible {
   }
 
   .share-button {
-    height: 30px;
+    height: 31px;
     padding: 0 8px;
-    font-size: 10px;
+    font-size: 11px;
   }
 
   .workspace {
@@ -1355,7 +1374,7 @@ textarea:focus-visible {
 
   .eyebrow {
     gap: 7px;
-    font-size: 8px;
+    font-size: 9px;
     letter-spacing: 1.3px;
   }
 
@@ -1375,7 +1394,7 @@ textarea:focus-visible {
   }
 
   .welcome h1 {
-    font-size: 36px;
+    font-size: 38px;
     letter-spacing: -1.5px;
   }
 
@@ -1395,11 +1414,11 @@ textarea:focus-visible {
   }
 
   .founder-option-copy strong {
-    font-size: 12px;
+    font-size: 13px;
   }
 
   .founder-option-copy > span {
-    font-size: 10px;
+    font-size: 11px;
   }
 
   .messages {
@@ -1417,7 +1436,7 @@ textarea:focus-visible {
 
   .message-content {
     max-width: calc(100% - 38px);
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.75;
   }
 
@@ -1432,11 +1451,11 @@ textarea:focus-visible {
   }
 
   .owner-copy h3 {
-    font-size: 16px;
+    font-size: 18px;
   }
 
   .owner-copy p {
-    font-size: 11px;
+    font-size: 13px;
   }
 
   .owner-links {
@@ -1445,7 +1464,7 @@ textarea:focus-visible {
 
   .owner-links a {
     padding: 6px;
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .composer-wrap {
@@ -1464,11 +1483,11 @@ textarea:focus-visible {
 
   .composer-tools {
     gap: 6px;
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .model-inline {
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .send-group {
@@ -1480,14 +1499,14 @@ textarea:focus-visible {
   }
 
   .send-button {
-    height: 32px;
+    height: 33px;
     padding: 0 9px;
     gap: 7px;
-    font-size: 10px;
+    font-size: 11px;
   }
 
   .disclaimer {
-    font-size: 9px;
+    font-size: 10px;
     padding-top: 7px;
   }
 
@@ -1519,7 +1538,7 @@ textarea:focus-visible {
   }
 
   .breadcrumb {
-    font-size: 10px;
+    font-size: 11px;
   }
 
   .top-actions {
@@ -1527,11 +1546,11 @@ textarea:focus-visible {
   }
 
   .welcome h1 {
-    font-size: 32px;
+    font-size: 34px;
   }
 
   .composer-tools {
-    font-size: 8px;
+    font-size: 9px;
   }
 
   .model-inline {
