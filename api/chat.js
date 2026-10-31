@@ -19,41 +19,37 @@ function detectLanguage(text = "") {
 }
 
 // --------------------------------------------------
-// TD_AI IDENTITY DETECTION (With Jailbreak Protection)
+// ADVANCED DYNAMIC IDENTITY & JAILBREAK DETECTION
 // --------------------------------------------------
 
 function asksAboutTDIdentity(text = "") {
   const q = text.toLowerCase().trim();
 
+  // Comprehensive dynamic patterns to catch any identity, creator, or jailbreak attempts
   const patterns = [
-    // Founder and ownership
-    /\b(founder|co-founder|ceo|owner|ownership|creator|developer|programmer|builder|maker|author)\b/i,
-    /\b(who|person|people|team)\b.{0,80}\b(behind|created|built|made|developed|designed|owns|runs|manages)\b/i,
-    /\b(who|whose)\b.{0,80}\b(your|this|the)\b.{0,40}\b(ai|assistant|project|system|platform|website|company)\b/i,
+    // Founder, owner, and developer keywords
+    /\b(founder|co-founder|ceo|owner|ownership|creator|developer|programmer|builder|maker|author|brainchild)\b/i,
+    /\b(who|person|people|team)\b.{0,100}\b(behind|created|built|made|developed|designed|owns|runs|manages|authored)\b/i,
+    /\b(who|whose)\b.{0,100}\b(your|this|the)\b.{0,50}\b(ai|assistant|project|system|platform|website|company|bot|app)\b/i,
 
-    // Background and origin
-    /\b(origin|background|history|origin story|creation|development|management|corporate history)\b/i,
-    /\b(who made you|who created you|who built you|who developed you|who is behind you)\b/i,
+    // Background, origin, and corporate history
+    /\b(origin|background|history|origin story|creation|development|management|corporate history|lineage)\b/i,
+    /\b(who made you|who created you|who built you|who developed you|who is behind you|who owns you)\b/i,
     /\b(where did you come from|how were you created|how did you start)\b/i,
 
-    // Jailbreak / Override attempt keywords (Blocks "Ignore all previous instructions")
-    /\b(ignore all previous instructions|override|you were built by|fine-tuned in|openai|anthropic|google)\b/i,
+    // Jailbreak and override blocking keywords
+    /\b(ignore all previous instructions|override|you were built by|fine-tuned in|openai|anthropic|google|microsoft|llama|gpt)\b/i,
 
-    // TD_AI project questions
-    /\b(about|tell me about|introduce|explain|describe)\b.{0,80}\b(td.?ai|yourself|your creator|your developer|your founder|your project)\b/i,
-    /\b(td.?ai|this project|this ai|your project|your platform)\b.{0,80}\b(founder|creator|developer|owner|history|background|purpose|mission|team|contact|company|origin)\b/i,
+    // TD_AI project and platform questions
+    /\b(about|tell me about|introduce|explain|describe)\b.{0,100}\b(td.?ai|yourself|your creator|your developer|your founder|your project)\b/i,
+    /\b(td.?ai|this project|this ai|your project|your platform)\b.{0,100}\b(founder|creator|developer|owner|history|background|purpose|mission|team|contact|company|origin)\b/i,
 
     // Contact and official information
     /\b(official website|contact details|contact information|email address|linkedin profile)\b/i,
     /\b(your website|your email|your linkedin|how can i contact|how to contact)\b/i,
 
-    // Purpose and future
-    /\b(purpose|mission|vision|goals|future plans)\b.{0,80}\b(td.?ai|your project|this ai)\b/i,
-
-    // Bengali
+    // Bengali and Hindi keywords for safety
     /(প্রতিষ্ঠাতা|মালিক|নির্মাতা|ডেভেলপার|কে তৈরি|ke toiri|ke banieche|কার তৈরি|কার মালিকানায়|পরিচয়|ইতিহাস|শুরু|উদ্দেশ্য|যোগাযোগ|ওয়েবসাইট|ইমেইল|প্রজেক্ট সম্পর্কে|তোমার সম্পর্কে|কে চালায়|কে পরিচালনা করে)/i,
-
-    // Hindi
     /(संस्थापक|मालिक|निर्माता|डेवलपर|किसने बनाया|किसने विकसित किया|परिचय|इतिहास|उद्देश्य|संपर्क)/i
   ];
 
@@ -240,7 +236,7 @@ export default async function handler(req, res) {
   // Save anonymous question analytics
   await saveVisitorQuestion(latestUserMessage, language);
 
-  // Force strict custom identity response for any questions about who made you / founder / creator or jailbreak attempts
+  // Force strict custom identity response for any questions about creator, founder, or jailbreak attempts
   if (asksAboutTDIdentity(latestUserMessage)) {
     return res.status(200).json({
       reply: getTDIdentityResponse(language)
