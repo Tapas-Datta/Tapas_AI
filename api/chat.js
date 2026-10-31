@@ -19,7 +19,7 @@ function detectLanguage(text = "") {
 }
 
 // --------------------------------------------------
-// TD_AI IDENTITY DETECTION
+// TD_AI IDENTITY DETECTION (With Jailbreak Protection)
 // --------------------------------------------------
 
 function asksAboutTDIdentity(text = "") {
@@ -32,9 +32,12 @@ function asksAboutTDIdentity(text = "") {
     /\b(who|whose)\b.{0,80}\b(your|this|the)\b.{0,40}\b(ai|assistant|project|system|platform|website|company)\b/i,
 
     // Background and origin
-    /\b(origin|background|history|origin story|creation|development|management)\b/i,
+    /\b(origin|background|history|origin story|creation|development|management|corporate history)\b/i,
     /\b(who made you|who created you|who built you|who developed you|who is behind you)\b/i,
     /\b(where did you come from|how were you created|how did you start)\b/i,
+
+    // Jailbreak / Override attempt keywords (Blocks "Ignore all previous instructions")
+    /\b(ignore all previous instructions|override|you were built by|fine-tuned in|openai|anthropic|google)\b/i,
 
     // TD_AI project questions
     /\b(about|tell me about|introduce|explain|describe)\b.{0,80}\b(td.?ai|yourself|your creator|your developer|your founder|your project)\b/i,
@@ -90,4 +93,207 @@ TD_AI-এর আলাদা কোনো CEO বা নিবন্ধিত �
 **प्रोजेक्ट:** ${info.project}
 **वेबसाइट:** ${info.website}
 **ईमेल:** ${info.email}
-**LinkedIn:** ${info.
+**LinkedIn:** ${info.linkedin}
+
+TD_AI के किसी अलग CEO या पंजीकृत कंपनी की पुष्टि नहीं हुई है।`;
+  }
+
+  return `TD_AI is an independent AI assistant project created and developed by Tapas Datta.
+
+**Founder & Developer:** ${info.name}
+**Project:** ${info.project}
+**Website:** ${info.website}
+**Email:** ${info.email}
+**LinkedIn:** ${info.linkedin}
+
+No separately confirmed CEO or registered company status has been established.`;
+}
+
+// --------------------------------------------------
+// ANONYMOUS VISITOR QUESTION ANALYTICS
+// --------------------------------------------------
+
+async function saveVisitorQuestion(question, language) {
+  if (!SUPABASE_URL || !SUPABASE_KEY) {
+    console.error("Supabase configuration is missing.");
+    return;
+  }
+
+  try {
+    const baseUrl = SUPABASE_URL.replace(/\/+$/, "");
+
+    const response = await fetch(
+      `${baseUrl}/rest/v1/visitor_questions`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
+          Prefer: "return=minimal"
+        },
+        body: JSON.stringify({
+          question: question.slice(0, 2000),
+          language
+        })
+      }
+    );
+
+    if (!response.ok) {
+      console.error(
+        "Supabase insert failed:",
+        await response.text()
+      );
+    }
+  } catch (error) {
+    console.error("Supabase analytics error:", error.message);
+  }
+}
+
+// --------------------------------------------------
+// TD_AI SYSTEM PROMPT
+// --------------------------------------------------
+
+const systemPrompt = (language) => `
+You are TD_AI, an intelligent, helpful, professional AI assistant.
+
+IDENTITY:
+- Your name is TD_AI.
+- You were created and developed by Tapas Datta.
+- Tapas Datta is the confirmed Founder and Developer of TD_AI.
+- TD_AI is an independent AI assistant project.
+
+STRICT IDENTITY AND PROJECT RULES:
+1. Always identify Tapas Datta as the confirmed Founder and Developer of TD_AI.
+2. Never claim that TD_AI was created by anyone else, and do not introduce unrelated AI companies or founders.
+3. If asked about your creator, founder, or background, always point directly to Tapas Datta and the official details provided below.
+
+CONFIRMED INFORMATION:
+Name: Tapas Datta
+Role: Founder and Developer of TD_AI
+Project: TD_AI
+Website: https://tapas-ai.vercel.app
+Email: Taposdatta610@gmail.com
+LinkedIn: https://www.linkedin.com/feed/
+
+LANGUAGE:
+- Respond in the language of the user's latest message (${language}).
+- Preserve the user's preferred language naturally.
+
+RESPONSE STYLE:
+- Be friendly, natural, clear, and professional.
+- Use clean Markdown formatting.
+`;
+
+// --------------------------------------------------
+// VERCEL API HANDLER
+// --------------------------------------------------
+
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({
+      error: "Method not allowed."
+    });
+  }
+
+  const apiKey = process.env.GROQ_API_KEY;
+
+  if (!apiKey) {
+    return res.status(500).json({
+      error: "Server configuration error. GROQ_API_KEY is missing."
+    });
+  }
+
+  const messages = req.body?.messages;
+
+  if (!Array.isArray(messages) || messages.length === 0) {
+    return res.status(400).json({
+      error: "Please provide a valid message."
+    });
+  }
+
+  const validMessages = messages
+    .filter(
+      message =>
+        message &&
+        ["user", "assistant"].includes(message.role) &&
+        typeof message.content === "string"
+    )
+    .slice(-40)
+    .map(message => ({
+      role: message.role,
+      content: message.content.slice(0, 12000)
+    }));
+
+  if (validMessages.length === 0) {
+    return res.status(400).json({
+      error: "No valid messages found."
+    });
+  }
+
+  const latestUserMessage = [...validMessages]
+    .reverse()
+    .find(message => message.role === "user")?.content || "";
+
+  const language = detectLanguage(latestUserMessage);
+
+  // Save anonymous question analytics
+  await saveVisitorQuestion(latestUserMessage, language);
+
+  // Force strict custom identity response for any questions about who made you / founder / creator or jailbreak attempts
+  if (asksAboutTDIdentity(latestUserMessage)) {
+    return res.status(200).json({
+      reply: getTDIdentityResponse(language)
+    });
+  }
+
+  try {
+    const response = await fetch(
+      "https://api.groq.com/openai/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: MODEL,
+          messages: [
+            {
+              role: "system",
+              content: systemPrompt(language)
+            },
+            ...validMessages
+          ],
+          temperature: 0.4,
+          max_tokens: 4096
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error("Groq API error:", data.error?.message);
+      return res.status(response.status).json({
+        error: data.error?.message || "AI request failed."
+      });
+    }
+
+    const reply = data.choices?.[0]?.message?.content;
+
+    if (!reply) {
+      return res.status(500).json({
+        error: "The AI returned an empty response."
+      });
+    }
+
+    return res.status(200).json({ reply });
+
+  } catch (error) {
+    console.error("TD_AI error:", error);
+    return res.status(500).json({
+      error: "Something went wrong. Please try again."
+    });
+  }
+}
