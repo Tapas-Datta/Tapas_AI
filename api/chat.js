@@ -53,16 +53,23 @@ TD_AI-এর আলাদা কোনো CEO বা নিবন্ধিত �
 TD_AI is not a confirmed registered company and has no separately confirmed CEO.`;
 }
 
-// Save anonymous question analytics.
-// No IP address, name, email, or visitor identifier is collected.
+// Save anonymous visitor question analytics.
 async function saveVisitorQuestion(question, language) {
+  console.log("Supabase config:", {
+    hasUrl: Boolean(SUPABASE_URL),
+    hasKey: Boolean(SUPABASE_KEY)
+  });
+
   if (!SUPABASE_URL || !SUPABASE_KEY) {
+    console.error("Supabase configuration is missing.");
     return;
   }
 
   try {
+    const baseUrl = SUPABASE_URL.replace(/\/+$/, "");
+
     const response = await fetch(
-      `${SUPABASE_URL}/rest/v1/visitor_questions`,
+      `${baseUrl}/rest/v1/visitor_questions`,
       {
         method: "POST",
         headers: {
@@ -80,10 +87,18 @@ async function saveVisitorQuestion(question, language) {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("Supabase analytics error:", errorText);
+
+      console.error("Supabase insert failed:", {
+        status: response.status,
+        error: errorText
+      });
+
+      return;
     }
+
+    console.log("Supabase visitor question saved successfully.");
   } catch (error) {
-    console.error("Analytics save failed:", error.message);
+    console.error("Supabase analytics error:", error.message);
   }
 }
 
@@ -99,7 +114,7 @@ STRICT FOUNDER AND COMPANY RULES:
 - Questions about TD_AI's founder, CEO, owner, creator, developer, or company must be answered using only confirmed TD_AI information.
 - The confirmed founder and developer is Tapas Datta.
 - Never mention Sam Altman, OpenAI founders, Groq executives, or founders of other companies when answering questions about TD_AI.
-- Never confuse TD_AI's creator with the founders of other AI companies.
+- Never confuse TD_AI's creator with founders of other AI companies.
 - Never invent company names, employees, founding dates, CEOs, business history, or personal details.
 - TD_AI is an independent AI assistant project, not a confirmed registered company.
 - There is no separately confirmed CEO of TD_AI.
@@ -190,8 +205,8 @@ export default async function handler(req, res) {
 
   const language = detectLanguage(latestUserMessage);
 
-  // Store the question without collecting IP or visitor identity.
-  // Analytics failure must never interrupt the AI response.
+  // Save the visitor question without collecting IP or identity.
+  // Analytics failure must not interrupt the AI response.
   await saveVisitorQuestion(latestUserMessage, language);
 
   // Always use confirmed TD_AI identity information.
