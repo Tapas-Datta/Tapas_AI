@@ -1,6 +1,9 @@
 
 const MODEL = process.env.GROQ_MODEL || "openai/gpt-oss-20b";
 
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
 function detectLanguage(text = "") {
   if (/[\u0980-\u09FF]/.test(text)) return "Bengali";
   if (/[\u0900-\u097F]/.test(text)) return "Hindi";
@@ -50,62 +53,41 @@ TD_AI-এর আলাদা কোনো CEO বা নিবন্ধিত �
 TD_AI is not a confirmed registered company and has no separately confirmed CEO.`;
 }
 
-export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({
-      error: "Method not allowed."
-    });
+// Save anonymous question analytics.
+// No IP address, name, email, or visitor identifier is collected.
+async function saveVisitorQuestion(question, language) {
+  if (!SUPABASE_URL || !SUPABASE_KEY) {
+    return;
   }
 
-  const apiKey = process.env.GROQ_API_KEY;
+  try {
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/visitor_questions`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
+          Prefer: "return=minimal"
+        },
+        body: JSON.stringify({
+          question: question.slice(0, 2000),
+          language
+        })
+      }
+    );
 
-  if (!apiKey) {
-    return res.status(500).json({
-      error: "Server configuration error. GROQ_API_KEY is missing."
-    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Supabase analytics error:", errorText);
+    }
+  } catch (error) {
+    console.error("Analytics save failed:", error.message);
   }
+}
 
-  const messages = req.body?.messages;
-
-  if (!Array.isArray(messages) || messages.length === 0) {
-    return res.status(400).json({
-      error: "Please provide a valid message."
-    });
-  }
-
-  const validMessages = messages
-    .filter(
-      (message) =>
-        message &&
-        ["user", "assistant"].includes(message.role) &&
-        typeof message.content === "string"
-    )
-    .slice(-40)
-    .map((message) => ({
-      role: message.role,
-      content: message.content.slice(0, 12000)
-    }));
-
-  if (validMessages.length === 0) {
-    return res.status(400).json({
-      error: "No valid messages found."
-    });
-  }
-
-  const latestUserMessage = [...validMessages]
-    .reverse()
-    .find((message) => message.role === "user")?.content || "";
-
-  const language = detectLanguage(latestUserMessage);
-
-  // Always use confirmed TD_AI identity information.
-  if (asksAboutTDIdentity(latestUserMessage)) {
-    return res.status(200).json({
-      reply: getTDIdentityResponse(language)
-    });
-  }
-
-  const systemPrompt = `
+const systemPrompt = (language) => `
 You are TD_AI, an intelligent, helpful, and professional AI assistant.
 
 IDENTITY:
@@ -160,6 +142,65 @@ MATH AND PROGRAMMING:
 You are TD_AI. Be accurate, useful, and honest.
 `;
 
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({
+      error: "Method not allowed."
+    });
+  }
+
+  const apiKey = process.env.GROQ_API_KEY;
+
+  if (!apiKey) {
+    return res.status(500).json({
+      error: "Server configuration error. GROQ_API_KEY is missing."
+    });
+  }
+
+  const messages = req.body?.messages;
+
+  if (!Array.isArray(messages) || messages.length === 0) {
+    return res.status(400).json({
+      error: "Please provide a valid message."
+    });
+  }
+
+  const validMessages = messages
+    .filter(
+      (message) =>
+        message &&
+        ["user", "assistant"].includes(message.role) &&
+        typeof message.content === "string"
+    )
+    .slice(-40)
+    .map((message) => ({
+      role: message.role,
+      content: message.content.slice(0, 12000)
+    }));
+
+  if (validMessages.length === 0) {
+    return res.status(400).json({
+      error: "No valid messages found."
+    });
+  }
+
+  const latestUserMessage = [...validMessages]
+    .reverse()
+    .find((message) => message.role === "user")?.content || "";
+
+  const language = detectLanguage(latestUserMessage);
+
+  // Store the question without collecting IP or visitor identity.
+  // Analytics failure must never interrupt the AI response.
+  await saveVisitorQuestion(latestUserMessage, language);
+
+  // Always use confirmed TD_AI identity information.
+  if (asksAboutTDIdentity(latestUserMessage)) {
+    return res.status(200).json({
+      reply: getTDIdentityResponse(language)
+    });
+  }
+
   try {
     const response = await fetch(
       "https://api.groq.com/openai/v1/chat/completions",
@@ -174,7 +215,7 @@ You are TD_AI. Be accurate, useful, and honest.
           messages: [
             {
               role: "system",
-              content: systemPrompt
+              content: systemPrompt(language)
             },
             ...validMessages
           ],
